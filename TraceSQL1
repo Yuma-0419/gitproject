@@ -1,15 +1,22 @@
-https://github.com/obicco/DBMS-SQL/blob/89d948558edcac419cb6e42a638e0a31a6541621/oracleDB-Lab01.sql
+--対象URL
+　https://github.com/obicco/DBMS-SQL/blob/89d948558edcac419cb6e42a638e0a31a6541621/oracleDB-Lab01.sql
+--文字数
+　約50行
 
+--コード
 --Esercizio 1
 SELECT * FROM DELIVERERS;
+　→テーブル「DELIVERERS」の全データを抽出
 
 --Esercizio 2
 SELECT DISTINCT COMPANYID FROM COMPANYDEL;
+　→テーブル「COMPANYDEL」の項目「COMPANYID」を重複除外で抽出
 
 --Esercizio 3
 SELECT NAME, DELIVERERID
 FROM DELIVERERS
 WHERE NAME LIKE 'B%';
+　→テーブル「DELIVERERS」から項目「NAME」がBから始まるデータの項目「NAME」「DELIVERERID」を抽出
 
 --Esercizio 4
 SELECT NAME, SEX, DELIVERERID

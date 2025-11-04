@@ -48,7 +48,8 @@ WHERE D.DELIVERERID = C.DELIVERERID
 AND D.TOWN = 'Stratford' 
 AND C.NUMDELIVERIES > 0 AND C.NUMCOLLECTIONS > 1;
 　→テーブル「DELIVERERS」「COMPANYDEL」を各々の項目「ドライバーID」をもとに結合して、
-　 尚且つ「DELIVERERS」の項目「町」がスタンフォードで
+　 尚且つ「DELIVERERS」の項目「町」がストラトフォード、「COMPANYDEL」の項目「配達数」が0より大きく、項目「NUMCOLLECTIONS」が1より大きいのデータの内、
+　 項目「会社ID」と「DELIVERERS」の項目「ドライバーID」のデータを重複除外で抽出
 
 --Esercizio 8
 SELECT DISTINCT D.DELIVERERID
@@ -56,6 +57,10 @@ FROM DELIVERERS D, COMPANYDEL C, COMPANIES CO
 WHERE D.DELIVERERID = C.DELIVERERID AND CO.COMPANYID = C.COMPANYID
 AND YEAR_OF_BIRTH >1962 AND MANDATE = 'first'
 ORDER BY D.DELIVERERID DESC;
+　→テーブル「DELIVERERS」「COMPANYDEL」「COMPANIES」を
+　 それぞれ「DELIVERERS」「COMPANYDEL」を項目「ドライバーID」、「COMPANYDEL」「COMPANIES」を項目「会社ID」もとに結合して、
+　 尚且つ項目「生年」が1962より大きく、項目「MANDATE」が「first」のデータの内、
+　 「DELIVERERS」の項目「ドライバーID」を降順で抽出
 
 --Esercizio 9
 SELECT DISTINCT NAME
@@ -64,6 +69,9 @@ WHERE D.DELIVERERID = C.DELIVERERID
 AND (TOWN = 'Stratford' OR TOWN = 'Inglewood')
 GROUP BY D.DELIVERERID, NAME
 HAVING COUNT(*) > 1;
+　→テーブル「DELIVERERS」「COMPANYDEL」を各々の項目「ドライバーID」をもとに結合して、
+　 尚且つ項目「町」の値がストラトフォード、もしくはイングルウッドのデータを項目「ドライバーID」「名前」ごとにグループ化、
+　 グループの値が1より大きいものを指定して、その結果から項目「名前」のデータを重複除外で抽出
 
 --Esercizio 10
 SELECT D.DELIVERERID, SUM(AMOUNT)
@@ -72,6 +80,10 @@ WHERE D.DELIVERERID = P.DELIVERERID
 AND TOWN = 'Inglewood'
 GROUP BY D.DELIVERERID
 HAVING COUNT(*) > 1;
+　→テーブル「DELIVERERS」「PENALTIES」を各々の項目「ドライバーID」をもとに結合して、
+　 尚且つ項目「町」の値がイングルウッドのデータを「DELIVERERS」の「ドライバーID」を基準にグループ化、
+　 グループの値が1より大きいものを指定して、その結果から項目「ドライバーID」のデータと
+　「ドライバーID」に紐づく「金額」を合計した結果を抽出
 
 --Esercizio 11
 SELECT D.NAME, MIN(P.AMOUNT)
@@ -79,6 +91,9 @@ FROM DELIVERERS D, PENALTIES P
 WHERE D.DELIVERERID = P.DELIVERERID
 GROUP BY D.DELIVERERID, D.NAME
 HAVING COUNT(*) >= 2 AND COUNT(*) <= 4;
+　→テーブル「DELIVERERS」「PENALTIES」を各々の項目「ドライバーID」をもとに結合して、
+　 データを項目「ドライバーID」「名前」ごとにグループ化、
+　 グループの値が2以上4以下のものを指定して、その結果から項目「名前」のデータと、「名前」に紐づく「金額」の最小金額を抽出
 
 --Esercizio 12
 SELECT SUM(NUMDELIVERIES), SUM(NUMCOLLECTIONS)
@@ -86,3 +101,7 @@ FROM COMPANYDEL C, DELIVERERS D
 WHERE D.DELIVERERID = C.DELIVERERID
 AND TOWN <> 'Stratford'
 AND NAME LIKE 'B%';
+　→テーブル「COMPANYDEL」「DELIVERERS」を各々の項目「ドライバーID」をもとに結合して、
+　 尚且つ項目「町」がストラトフォード以外で項目「名前」がＢから始まるデータの内、
+　 項目「配達数」の合計数と項目「NUMCOLLECTIONS」の合計数を抽出
+　 

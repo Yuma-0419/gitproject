@@ -42,7 +42,6 @@ ORDER BY e.Emp_Id;
 
 従業員テーブルを従業員IDと上司ID？で自己結合（左外部結合）
 従業員名と従業員ID、それに結びつく上司名（値がnullの場合は「---」）と上司ID？を取得する
-
 →上司側の情報を軸に従業員の名前とID、その従業員の上司の名前とIDを取得するSQL（上司名の値がnullの場合は---と表示される）
 
 -- 4. Employees hired after SANCHEZ
@@ -53,12 +52,21 @@ JOIN Empleados s ON e.Emp_FechaContrato > s.Emp_FechaContrato
 WHERE s.Emp_Nombre = 'SANCHEZ'
 ORDER BY e.Emp_FechaContrato;
 
+従業員テーブルを、入社日＞サンチェスという従業員の入社日という条件で自己結合
+従業員名と入社日を入社日の昇順で取得する
+　→サンチェスより後に入社した従業員の従業員名と入社日を入社日順で取得するSQL
+
 -- SQL-1999 syntax
 SELECT e.Emp_Nombre, e.Emp_FechaContrato
 FROM Empleados e
 JOIN Empleados s ON s.Emp_Nombre = 'SANCHEZ'
 WHERE e.Emp_FechaContrato > s.Emp_FechaContrato
 ORDER BY e.Emp_FechaContrato;
+
+従業員テーブルを、入社日＞サンチェスという従業員の入社日という条件で自己結合
+従業員名と入社日を入社日の昇順で取得する
+　→サンチェスより後に入社した従業員の従業員名と入社日を入社日順で取得するSQL
+　　＊上のSQLと内容は同じ。ONの条件と、WHEREの条件を入れ替えた形（SQL1999での構文？）
 
 -- 5. Employees hired before their managers
 -- Oracle syntax
@@ -68,6 +76,10 @@ FROM Empleados e
 JOIN Empleados j ON e.Emp_Jefe = j.Emp_Id
 WHERE e.Emp_FechaContrato < j.Emp_FechaContrato;
 
+従業員テーブルを上司ID？と従業員IDで自己結合
+上司の入社日＜従業員の入社日の条件で、従業員名と入社日、それに結びつく上司名と上司の入社日を取得する
+　→部下が上司より先に入社しているという条件で、部下の名前と入社日、上司の名前と入社日を取得するSQL
+
 -- SQL-1999 syntax (same)
 SELECT e.Emp_Nombre AS Empleado, e.Emp_FechaContrato AS "Fecha de contrato Empleado",
        j.Emp_Nombre AS Jefe, j.Emp_FechaContrato AS "Fecha de contrato Jefe"
@@ -75,6 +87,7 @@ FROM Empleados e
 JOIN Empleados j ON e.Emp_Jefe = j.Emp_Id
 WHERE e.Emp_FechaContrato < j.Emp_FechaContrato;
 
+　＊上と同義。SQL1999の構文？のため割愛
 
 -- =============================================================
 -- PRACTICE 5: Aggregating Data Using Group Functions
@@ -87,6 +100,10 @@ SELECT ROUND(MAX(Emp_Salario)) AS Maximo,
        ROUND(AVG(Emp_Salario)) AS Promedio
 FROM Empleados;
 
+従業員テーブルから
+給料の最大値、最低値、総額、平均値を四捨五入して取得する
+　→給料の最大値、最低値、総額、平均値を四捨五入して取得するSQL
+
 -- 2. Same stats grouped by job title
 SELECT Emp_Cargo,
        ROUND(MAX(Emp_Salario)) AS Maximo,
@@ -95,6 +112,10 @@ SELECT Emp_Cargo,
        ROUND(AVG(Emp_Salario)) AS Promedio
 FROM Empleados
 GROUP BY Emp_Cargo;
+
+従業員テーブルから
+役職でグループ化して、役職名、給料の最大値、最低値、総額、平均値を四捨五入して取得する
+　→役職ごとの給料の最大値、最低値、総額、平均値を四捨五入して取得するSQL
 
 -- 3. Managers with min salary >= 1,300,000
 SELECT e.Emp_Jefe AS "Jefe#",

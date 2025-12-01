@@ -157,7 +157,7 @@ GROUP BY e.Emp_Cargo;
 従業員テーブルから
 部門IDが10、20、30、のいずれかという条件で
 役職でグループ化して、役職名、部門IDが10の部門の給料の総額、部門IDが20の部門の給料の総額、部門IDが30の部門の給料の総額を取得する
-　→部門IDが10、20、30の部門の各役職ごとの給料の総額を取得するSQL
+　→各役職の給料の総額を、10、20、30の部門ごとに取得するSQL
 
 -- =============================================================
 -- PRACTICE 6: Subqueries
@@ -169,6 +169,12 @@ FROM Empleados
 WHERE Dep_Id = (SELECT Dep_Id FROM Empleados WHERE Emp_Nombre = 'JIMENEZ')
   AND Emp_Nombre != 'JIMENEZ';
 
+従業員テーブルから
+ヒメネスという従業員が所属している部門IDで尚且つ従業員名がヒメネス以外という条件で
+従業員名と入社日を取得する
+　→ヒメネスが所属する部門の、ヒメネス以外の他の従業員の従業員名と入社日を取得するSQL
+　　＊ヒメネス本人以外の従業員の情報を取得するSQL
+
 -- 2. Employees working in any department of employees whose name contains 'P'
 SELECT Emp_Id, Emp_Nombre
 FROM Empleados
@@ -176,11 +182,18 @@ WHERE Dep_Id IN (
   SELECT Dep_Id FROM Empleados WHERE Emp_Nombre LIKE '%P%'
 );
 
+従業員テーブルから
+名前に「P」が入る従業員が所属する部門の部門IDという条件で
+部門IDと従業員名を取得する
+　→名前に「P」という文字が入る従業員がいる部門の全従業員名を取得するSQL（取得結果には部門IDも表示される）
+
 -- 3. Employees in departments located in CALI
 SELECT e.Emp_Nombre, e.Emp_Cargo, e.Dep_Id
 FROM Empleados e
 JOIN Departamentos d ON e.Dep_Id = d.Dep_Id
 WHERE d.Dep_Localizacion = 'CALI';
+
+
 
 -- 4. Employees managed by LOPEZ
 SELECT Emp_Nombre, Emp_Salario

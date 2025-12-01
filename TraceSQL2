@@ -126,6 +126,11 @@ GROUP BY e.Emp_Jefe
 HAVING MIN(e.Emp_Salario) >= 1300000
 ORDER BY Salario_Minimo DESC;
 
+従業員テーブルから
+給料が最低1300000以上という条件で上司IDでグループ化して、
+上司IDがnull以外という条件で上司IDと最低給料を最低給料の降順で取得する
+　→各上司の部下の最低給料を算定して、最低給料が1300000以上である上司のIDを、給料の降順で取得するSQL
+
 -- 4. Department summary: name, location, # employees, avg salary
 SELECT d.Dep_Nombre AS Nombre,
        d.Dep_Localizacion AS Localización,
@@ -136,6 +141,10 @@ LEFT JOIN Empleados e ON d.Dep_Id = e.Dep_Id
 GROUP BY d.Dep_Nombre, d.Dep_Localizacion
 ORDER BY d.Dep_Nombre;
 
+部門テーブルと従業員テーブルを部門IDで左外部結合
+部門名と場所名でグループ化して、部門名、場所名、従業員数、平均給料（少数1桁まで四捨五入）を部門名の昇順で取得する
+　→各部門の部門名、場所名、従業員数、平均給料（少数1桁まで四捨五入）を部門名順で取得する（従業員がいない部門のデータも取得）
+
 -- 5. Pivot table: total salary per position by department (10, 20, 30)
 SELECT e.Emp_Cargo AS "Position",
        SUM(CASE WHEN e.Dep_Id = 10 THEN e.Emp_Salario ELSE 0 END) AS "Department 10",
@@ -145,6 +154,10 @@ FROM Empleados e
 WHERE e.Dep_Id IN (10, 20, 30)
 GROUP BY e.Emp_Cargo;
 
+従業員テーブルから
+部門IDが10、20、30、のいずれかという条件で
+役職でグループ化して、役職名、部門IDが10の部門の給料の総額、部門IDが20の部門の給料の総額、部門IDが30の部門の給料の総額を取得する
+　→部門IDが10、20、30の部門の各役職ごとの給料の総額を取得するSQL
 
 -- =============================================================
 -- PRACTICE 6: Subqueries

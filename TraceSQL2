@@ -3,6 +3,10 @@
 --文字数
 　約90行
 
+--備考
+　固有名詞等にスペイン語がつかわれているためGoogle翻訳で単語を調べて解析
+　分からない部分・不明瞭な部分は「？」を記載
+
 --コード
 
 -- =============================================================
@@ -15,11 +19,19 @@ FROM Empleados e
 JOIN Departamentos d ON e.Dep_Id = d.Dep_Id
 WHERE e.Dep_Id = 30;
 
+従業員テーブルと部門テーブルを部門IDで結合
+部門IDが30のデータを対象に、役職と場所の値を重複を取り除いて取得する
+→部門IDが30の従業員の役職と勤務地を重複を取り除いて取得するSQL
+
 -- 2. Employee and their manager info
 SELECT e.Emp_Nombre AS Empleado, e.Emp_Id AS "Emp#",
        j.Emp_Nombre AS Jefe, e.Emp_Jefe AS "Jefe#"
 FROM Empleados e
 JOIN Empleados j ON e.Emp_Jefe = j.Emp_Id;
+
+従業員テーブルを上司ID？と従業員IDで自己結合
+従業員名と従業員ID、それに結びつく上司名と上司ID？を取得する
+→従業員の名前とID、その従業員の上司の名前とIDを取得するSQL
 
 -- 3. Same as above, but includes President with no manager
 SELECT e.Emp_Nombre AS Empleado, e.Emp_Id AS "Emp#",
@@ -27,6 +39,11 @@ SELECT e.Emp_Nombre AS Empleado, e.Emp_Id AS "Emp#",
 FROM Empleados e
 LEFT JOIN Empleados j ON e.Emp_Jefe = j.Emp_Id
 ORDER BY e.Emp_Id;
+
+従業員テーブルを従業員IDと上司ID？で自己結合（左外部結合）
+従業員名と従業員ID、それに結びつく上司名（値がnullの場合は「---」）と上司ID？を取得する
+
+→上司側の情報を軸に従業員の名前とID、その従業員の上司の名前とIDを取得するSQL（上司名の値がnullの場合は---と表示される）
 
 -- 4. Employees hired after SANCHEZ
 -- Oracle syntax

@@ -194,6 +194,9 @@ JOIN Departamentos d ON e.Dep_Id = d.Dep_Id
 WHERE d.Dep_Localizacion = 'CALI';
 
 
+従業員テーブルと部門テーブルを部門IDで結合
+場所に「カリ？」という値が入ることを条件として従業員名と役職、部門IDを取得する
+　→カリという都市で働いている従業員の名前と役職と部門IDを取得するSQL
 
 -- 4. Employees managed by LOPEZ
 SELECT Emp_Nombre, Emp_Salario
@@ -202,8 +205,16 @@ WHERE Emp_Jefe = (
   SELECT Emp_Id FROM Empleados WHERE Emp_Nombre = 'LOPEZ'
 );
 
+従業員テーブルから
+ロペスという名前の上司の上司IDを条件として従業員名と給料を取得する
+　→ロペスという名前の上司を持つ従業員の名前と給料を取得するSQL
+
 -- 5. Employees in department named CONTABILIDAD
 SELECT d.Dep_Id, e.Emp_Nombre, e.Emp_Cargo
 FROM Departamentos d
 JOIN Empleados e ON d.Dep_Id = e.Dep_Id
 WHERE d.Dep_Nombre = 'CONTABILIDAD';
+
+従業員テーブルと部門テーブルを部門IDで結合
+部門名が「会計」という値であることを条件として、部門IDと従業員名と役職を取得してくる
+　→経理部門に所属する従業員の名前と役職を取得するSQL（取得結果には部門IDも表示される）
